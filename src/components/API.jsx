@@ -15,7 +15,7 @@ export default function API(props) {
     // Stock Price Change
     // Company Profile
     // Daily Chart EOD (under Mergers and Aquisitions)
-    console.log(props.yes)
+    // console.log(props.yes)
 
     const { data, error, isLoading } = useQuery({
         queryKey: ['test'],
