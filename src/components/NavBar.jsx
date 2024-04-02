@@ -13,7 +13,7 @@ export default function NavBar() {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className='flex-grow-1 justify-content-evenly '>
 
-                    <Nav.Link href="findstocks" className='mr-10'>Find Stocks</Nav.Link>
+                    <Nav.Link href="home" className='mr-10'>Find Stocks</Nav.Link>
                     <Nav.Link href="watchlist">My Watchlist</Nav.Link>
                 </Nav>
                 
