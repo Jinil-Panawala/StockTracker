@@ -49,27 +49,27 @@ class StockPanel extends Component {
         return (
 
 
-            <Table responsive bordered variant='dark' style={{borderCollapse: 'separate', borderSpacing: '0 0px', width: '2250px'}}>
+            <Table responsive bordered variant='dark' style={{borderCollapse: 'separate', borderSpacing: '0 0px', width: '2250px'}} className="">
 
-            <tbody >
+                <tbody >
 
-                <tr>
+                    <tr>
 
-                    {this.state.isMounted ? 
-                        this.tickers.map((ticker, index) => {
+                        {this.state.isMounted ?
+                            this.tickers.map((ticker, index) => {
 
-                            return (
-                                <td key={ticker}> <StockSnapshot data={this.state.data[index]}/> </td>
-                            )
-                        })
-                    : null}
+                                return (
+                                    <td key={ticker}> <StockSnapshot data={this.state.data[index]}/> </td>
+                                )
+                            })
+                        : null}
 
-               
                 
-                </tr>
+                    
+                    </tr>
 
 
-            </tbody>
+                </tbody>
 
 
 

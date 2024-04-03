@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 export default function NavBar() {
 
     return (
-        <Navbar expand="md" /*lg*/ className="bg-body-tertiary " bg='dark' data-bs-theme="dark">
+        <Navbar expand="md" /*lg*/ className="bg-body-tertiary " bg='dark' data-bs-theme="dark" /*style={{position: 'fixed', width: '100%'}}*/>
           <Container>
             <Navbar.Brand href="home" >Stock Scouter</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />

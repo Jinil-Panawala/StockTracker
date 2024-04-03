@@ -42,7 +42,7 @@ class StockSnapshot extends Component {
 
     render() {
         return (
-            <>
+            <div className="">
 
                 <div className="text-center" >
                     {this.state.ticker}
@@ -65,7 +65,7 @@ class StockSnapshot extends Component {
 
                 </Table>
             
-            </>
+            </div>
 
 
                 

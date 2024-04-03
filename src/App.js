@@ -1,18 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import './App.css';
 import NavBar from './components/NavBar';
 import StockPanel from './components/StockPanel';
+import Hero from './components/Hero';
 
 function App() {
 
 
   return (
 
-      <div className='' >
+      <div className='bg-dark' >
 
         <NavBar></NavBar>
         <StockPanel/>
+        <Hero />
+        
         
 
 
