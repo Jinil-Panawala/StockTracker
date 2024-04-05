@@ -49,7 +49,7 @@ class StockPanel extends Component {
         return (
 
 
-            <Table responsive bordered variant='dark' style={{borderCollapse: 'separate', borderSpacing: '0 0px', width: '2250px'}} className="">
+            <Table responsive bordered variant='dark' style={{borderCollapse: 'separate', borderSpacing: '0 0px', width: '2250px'}} data-bs-theme="dark">
 
                 <tbody >
 
