@@ -19,9 +19,9 @@ class SearchBar extends Component {
 
         return (
             
-            <div className="container col-xxl-10 px-4 py-5">
+            // <div className="container col-xxl-10 px-4 py-5">
 
-                <InputGroup className="mb-3 text-white " >
+                <InputGroup className="mb-5 text-white " >
 
                     <FloatingLabel
                         controlId="searchBar"
@@ -47,7 +47,7 @@ class SearchBar extends Component {
 
                 </InputGroup>
                 
-            </div>
+            // </div>
 
         )
     }

@@ -52,10 +52,10 @@ class StockSnapshot extends Component {
                     <tbody>
                         <tr>
                             <th className="text-center text-primary">
-                                {this.state.price.toFixed(2)}
+                                {this.state.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                             </th>
                             <td className={"text-center " + (this.state.priceChange < 0 ? 'text-danger' : 'text-success')} style={{fontSize: '12px', verticalAlign: 'middle',}}>
-                                {(this.state.priceChange >= 0 ? '+' : '') + this.state.priceChange.toFixed(2) + " " + '(' + (this.state.percentChange >= 0 ? '+' : '') + this.state.percentChange.toFixed(2) + '%)'}
+                                {(this.state.priceChange >= 0 ? '+' : '') + this.state.priceChange.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + '(' + (this.state.percentChange >= 0 ? '+' : '') + this.state.percentChange.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '%)'}
                             </td>
                         </tr>
 
