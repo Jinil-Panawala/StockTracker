@@ -10,9 +10,25 @@ class SearchBar extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            searchText: '',
+
+        }
     }
 
+    handleEnterPress = (event) => {
+        if (event.key === 'Enter' && this.state.searchText !== '') {
+            // console.log('enter click');
+            
+            this.props.search(this.state.searchText.toUpperCase())
+        }
+    }
 
+    handleSearchButtonPress = () => {
+        if (this.state.searchText !== '') {
+            this.props.search(this.state.searchText.toUpperCase());
+        }
+    }
 
 
     render() {
@@ -22,7 +38,7 @@ class SearchBar extends Component {
             // <div className="container col-xxl-10 px-4 py-5">
 
                 <InputGroup className="mb-5 text-white " >
-
+                    {/* {console.log(this.state.searchText)} */}
                     <FloatingLabel
                         controlId="searchBar"
                         label="Search Stocks or Equities"
@@ -36,12 +52,14 @@ class SearchBar extends Component {
                         aria-label="Search Stocks or Equities"
                         aria-describedby="search-stocks-or-equities"
                         data-bs-theme="dark"
-                        
+                        onChange={(event) => this.setState({searchText: event.target.value})}
+                        onKeyDown={this.handleEnterPress}
                         />
 
                     </FloatingLabel>
 
-                    <Button variant="outline-secondary" id="search-button" size="lg" >
+                    <Button variant="outline-secondary" id="search-button" size="lg"
+                    onClick={() => this.handleSearchButtonPress()} >
                     Search
                     </Button>
 

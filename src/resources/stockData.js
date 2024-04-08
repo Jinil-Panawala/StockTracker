@@ -10,7 +10,7 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        console.log('fetched bulk company prices')
+        // console.log('fetched bulk company prices')
     },
 
     // Called when updating stock card and graph
@@ -31,9 +31,10 @@ export const stockData = {
         console.log('fetched company profile')
     },
 
-    daily5min: (ticker, callback) => {
+    // Called when creating 1D graph
+    daily5min: (ticker, date, callback) => {
 
-        const url = `${apiCredentials.baseURL}/v3/historical-chart/5min/${ticker}?from=2024-03-28&to=2024-03-28&apikey=${apiCredentials.apiKey}`;
+        const url = `${apiCredentials.baseURL}/v3/historical-chart/5min/${ticker}?from=${date}&to=${date}&apikey=${apiCredentials.apiKey}`;
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 

@@ -12,31 +12,29 @@ class Graph extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            // symbol: '',
             graphData: [],
+            timestamp: 0,
             filter: '1D',
-            mounted: false,
         }
     }
 
     filters = ['1D', '1W', '1M', '1Y', '5Y'];
 
-    createDate = (date, days, weeks, months, years) => {
-        let newDate = new Date(date);
-        newDate.setDate(newDate.getDate() + days + 7 * weeks);
-        newDate.setMonth(newDate.getMonth() + months);
-        newDate.setFullYear(newDate.getFullYear() + years);
+    convertTimestampToDate = (timestamp) => {
+        const timestampMS = timestamp * 1000;
+        // Create a new Date object using the timestamp
+        const date = new Date(timestampMS);
 
-        return newDate;
-    }
+        // Extract year, month, and day components from the date
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based, so add 1
+        const day = String(date.getDate()).padStart(2, '0');
 
-    createDateObject = (dateString) => {
-        const [datePart, timePart] = dateString.split(' ');
-        const [year, month, day] = datePart.split('-');
-        const [hour, minute, second] = timePart.split(':');
+        // Format the date string in 'YYYY-MM-DD' format
+        const formattedDate = `${year}-${month}-${day}`;
 
-        // Create a new Date object
-        const dateObject = new Date(year, month - 1, day, hour, minute, second);
-        return dateObject;
+        return formattedDate;
 
     }
    
@@ -53,17 +51,18 @@ class Graph extends Component {
 
     }
 
-    extractGraphData(graphData) {
-        if (graphData) {
+    extractGraphData(graphData, date) {
+        // console.log(date);
+        if (graphData && graphData.length !== 0) {
             // graphData.slice().reverse();
             this.setState({
                 graphData: graphData.slice().reverse(),
-                mounted: true,
 
             })
         }
 
-        // console.log(this.reversedGraphData)
+
+        
 
     }
 
@@ -72,9 +71,15 @@ class Graph extends Component {
 
     componentDidMount() {
 
-        stockData.daily5min("AAPL", this.extractGraphData.bind(this));
+        stockData.daily5min(this.props.symbol, this.convertTimestampToDate(this.props.timestamp), this.extractGraphData.bind(this));
         
 
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.symbol !== this.props.symbol) {
+            stockData.daily5min(this.props.symbol, this.convertTimestampToDate(this.props.timestamp), this.extractGraphData.bind(this));
+        }
     }
 
 
@@ -82,76 +87,81 @@ class Graph extends Component {
         return (
 
 
-
-            <Card className="bg-dark">
-                
-                {/* <div className="row  ms-auto  py-3 px-3"> */}
-                <ButtonGroup className="row  ms-auto  py-3 px-3 ">
-
-
-                        {this.filters.map((filter, index) => {
-                            return (
-                                <div className="col-auto " key={filter}>
-                                    <ToggleButton  id={`filter-${index}`} type="radio" name="radio" value={filter} checked={this.state.filter === filter}
-                                    onChange={() => this.setState({filter: filter})} className="px-5">
-                                    
-                                    {filter}
-                                    </ToggleButton>
-                                </div>
-
-
-
             
+            <Card className="bg-dark mb-5">
+                
+                <Card.Body>
 
-                            
-                            )
-                        })}
-
-
-
-                </ButtonGroup>
+                    <ButtonGroup className="row d-flex ms-auto justify-content-end  py-3 px-3 ">
 
 
-                    
+                            {this.filters.map((filter, index) => {
+                                return (
+                                    <div className="col-auto " key={filter}>
+                                        <ToggleButton  id={`filter-${index}`} type="radio" name="radio" value={filter} checked={this.state.filter === filter}
+                                        onChange={() => this.setState({filter: filter})} className="px-5">
+                                        
+                                        {filter}
+                                        </ToggleButton>
+                                    </div>
 
 
 
-                    
-                {/* </div> */}
+                
 
-
-
-                <ResponsiveContainer maxHeight={'1000px'}  >
-
-
-                        <br></br>
-
-                        {console.log(this.state.filter)}
-                    
-                        
-                            <AreaChart data={this.prepareChartData(this.state.graphData)}>
-
-                            <defs>
-                                <linearGradient id="chartColor" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="50%" stopColor="rgb(77, 184, 255)" stopOpacity={0.8}/>
-                                    <stop offset="97%" stopColor="rgb(77, 184, 255)" stopOpacity={0}/>
-                                </linearGradient>
-                            
-                            </defs>
                                 
-
-
-                                <Area type="monotone" dataKey="Price" stroke="#312e81" fillOpacity={1} strokeWidth={0.5} fill="url(#chartColor)"/>
-                                <Tooltip  />
-                                <XAxis dataKey={"date"} />
-                                <YAxis domain={["dataMin", "dataMax"]} />
+                                )
+                            })}
 
 
 
-                            </AreaChart>
+                    </ButtonGroup>
+
+
+                        
+
+
+
+                        
+             
+
                     
 
-                </ResponsiveContainer>
+                    <ResponsiveContainer maxHeight={'1000px'}  >
+
+
+                            <br></br>
+
+                            {/* {console.log(this.state.graphData)} */}
+                            {/* {console.log(this.props.timestamp)}
+                            {console.log(this.convertTimestampToDate(this.props.timestamp))} */}
+                        
+                            
+                                <AreaChart data={this.prepareChartData(this.state.graphData)}>
+
+                                <defs>
+                                    <linearGradient id="chartColor" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="50%" stopColor="rgb(77, 184, 255)" stopOpacity={0.8}/>
+                                        <stop offset="97%" stopColor="rgb(77, 184, 255)" stopOpacity={0}/>
+                                    </linearGradient>
+                                
+                                </defs>
+                                    
+
+
+                                    <Area type="monotone" dataKey="Price" stroke="#312e81" fillOpacity={1} strokeWidth={0.5} fill="url(#chartColor)"/>
+                                    <Tooltip  />
+                                    <XAxis dataKey={"date"} />
+                                    <YAxis domain={["dataMin", "dataMax"]} />
+
+
+
+                                </AreaChart>
+                        
+
+                    </ResponsiveContainer>
+                </Card.Body>
+                
             </Card>
 
 
