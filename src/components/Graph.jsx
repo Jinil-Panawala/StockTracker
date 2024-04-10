@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { stockData } from "../resources/stockData";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { ResponsiveContainer } from "recharts";
 import Card  from "react-bootstrap/Card";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-
+import ReactApexChart from "react-apexcharts";
 
 
 class Graph extends Component {
@@ -37,23 +37,75 @@ class Graph extends Component {
         return formattedDate;
 
     }
+
+    getDateSevenDaysBefore(dateString) {
+        const date = new Date(dateString);
+        date.setDate(date.getDate() - 7);
+    
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+    
+        return `${year}-${month}-${day}`;
+    }
+
+    getDateOneMonthBefore(dateString) {
+        const date = new Date(dateString);
+        date.setMonth(date.getMonth() - 1);
+    
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+    
+        return `${year}-${month}-${day}`;
+    }
+
+    getDateOneYearBefore(dateString) {
+        const [year, month, day] = dateString.split('-').map(Number);
+        const prevYear = year - 1;
+    
+        // Format the previous date as YYYY-MM-DD
+        const formattedPrevDate = `${prevYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+        return formattedPrevDate;
+    }
+
+    // getDateFiveYearsBefore(dateString) {
+    //     const [year, month, day] = dateString.split('-').map(Number);
+    //     const prevYear = year - 5;
+    
+    //     // Format the previous date as YYYY-MM-DD
+    //     const formattedPrevDate = `${prevYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+    //     return formattedPrevDate;
+    // }
+
+
+
    
     prepareChartData = () => {
+        // if (this.state.filter === '1Y' || this.state.filter === '5Y') {
+
+        //     console.log(this.state.filter, this.state.graphData)
+        // }
+
         return (this.state.graphData).map((item, index) => {
             // console.log(item['close'].toFixed(2));
             // console.log(this.createDateObject(item['date']));
             return {
-                Price: item['close'].toFixed(2),
-                date: (item['date']),
+                x: (item['date']),
+                y: item['close'].toFixed(2),
             }
         }); 
+    }
         
 
-    }
 
-    extractGraphData(graphData, date) {
-        // console.log(date);
-        if (graphData && graphData.length !== 0) {
+
+    extractGraphData(graphData) {
+        if (graphData && Array.isArray(graphData) && graphData.length !== 0) {
+            // console.log(Array.isArray({}))
+            // console.log({'historical' : []}.hasOwnProperty('historical'))
             // graphData.slice().reverse();
             this.setState({
                 graphData: graphData.slice().reverse(),
@@ -61,26 +113,66 @@ class Graph extends Component {
             })
         }
 
+        else if (graphData && !Array.isArray(graphData) &&  graphData.hasOwnProperty('historical') && graphData['historical'].length !== 0) {
+
+                this.setState({
+                    graphData: graphData['historical'].slice().reverse(),
+                })
+
+        }
+
 
         
 
     }
+
+    getOneDayData() {
+        stockData.daily1min(this.props.symbol, this.convertTimestampToDate(this.props.timestamp), this.extractGraphData.bind(this));
+    }
+
+    getOneWeekData() {  
+        stockData.weekly5min(this.props.symbol,this.getDateSevenDaysBefore(this.convertTimestampToDate(this.props.timestamp)), this.convertTimestampToDate(this.props.timestamp), this.extractGraphData.bind(this) )
+    }   
+
+    getOneMonthData() {
+        stockData.monthly15min(this.props.symbol,this.getDateOneMonthBefore(this.convertTimestampToDate(this.props.timestamp)), this.convertTimestampToDate(this.props.timestamp), this.extractGraphData.bind(this) )
+
+    }
+
+    getOneYearData() {
+        stockData.yearly(this.props.symbol,this.getDateOneYearBefore(this.convertTimestampToDate(this.props.timestamp)), this.convertTimestampToDate(this.props.timestamp), this.extractGraphData.bind(this) )
+
+    }
+
+    getFiveYearData() {
+        stockData.fiveYears(this.props.symbol, this.extractGraphData.bind(this) )
+
+    }
+
+
+    // chooseData = [this.getOneDayData(), this.getOneWeekData(), this.getOneMonthData(), this.getOneYearData(), this.getFiveYearData()];
+
 
     
 
 
+    // Always show daily5min graph on mount.
     componentDidMount() {
-
-        stockData.daily5min(this.props.symbol, this.convertTimestampToDate(this.props.timestamp), this.extractGraphData.bind(this));
+        this.getOneDayData();
         
-
     }
 
+    // Always show daily5min graph at first whenever ticker changes.
     componentDidUpdate(prevProps) {
         if (prevProps.symbol !== this.props.symbol) {
-            stockData.daily5min(this.props.symbol, this.convertTimestampToDate(this.props.timestamp), this.extractGraphData.bind(this));
+            this.getOneDayData();
+            this.setState({
+                filter: '1D',
+            })
         }
     }
+
+    
 
 
     render() {
@@ -99,7 +191,8 @@ class Graph extends Component {
                                 return (
                                     <div className="col-auto " key={filter}>
                                         <ToggleButton  id={`filter-${index}`} type="radio" name="radio" value={filter} checked={this.state.filter === filter}
-                                        onChange={() => this.setState({filter: filter})} className="px-5">
+                                        onChange={() => this.setState({filter: filter})} className="px-5" onClick={() => (filter === '1D' && this.state.filter !== '1D') ? this.getOneDayData() : (filter === '1W' && this.state.filter !== '1W') ? 
+                                        this.getOneWeekData() : (filter === '1M' && this.state.filter !== '1M') ? this.getOneMonthData() : (filter === '1Y' && this.state.filter !== '1Y') ? this.getOneYearData() : (filter === '5Y' && this.state.filter !== '5Y') ? this.getFiveYearData() : undefined}>
                                         
                                         {filter}
                                         </ToggleButton>
@@ -118,26 +211,19 @@ class Graph extends Component {
                     </ButtonGroup>
 
 
-                        
 
 
+                    <ResponsiveContainer height={'1000px'}>
 
-                        
-             
-
-                    
-
-                    <ResponsiveContainer maxHeight={'1000px'}  >
-
-
-                            <br></br>
 
                             {/* {console.log(this.state.graphData)} */}
                             {/* {console.log(this.props.timestamp)}
                             {console.log(this.convertTimestampToDate(this.props.timestamp))} */}
+                            {/* {console.log(this.state.graphData.length)} */}
+
                         
                             
-                                <AreaChart data={this.prepareChartData(this.state.graphData)}>
+                                {/* <AreaChart data={this.prepareChartData()}>
 
                                 <defs>
                                     <linearGradient id="chartColor" x1="0" y1="0" x2="0" y2="1">
@@ -152,11 +238,103 @@ class Graph extends Component {
                                     <Area type="monotone" dataKey="Price" stroke="#312e81" fillOpacity={1} strokeWidth={0.5} fill="url(#chartColor)"/>
                                     <Tooltip  />
                                     <XAxis dataKey={"date"} />
-                                    <YAxis domain={["dataMin", "dataMax"]} />
+                                    <YAxis domain={["dataMin", "dataMax"]} dataKey={'Price'}   />
 
 
 
-                                </AreaChart>
+                                </AreaChart> */}
+                                <ReactApexChart
+                                    options={{
+                                        chart: {
+                                            // id: 'graph',
+                                            type: 'area',
+                                            toolbar: {
+                                                show: true,
+                                                tools: {
+                                                    download: false,
+                                                    selection: false,
+                                                    reset: true,
+                                                    zoom: true,
+                                                    zoomin: true,
+                                                    zoomout: true,
+                                                    pan: false,
+                                                }
+                                            },
+                                            animations: {
+                                                speed: 400,
+                                                animateGradually: {
+                                                    enabled: false,
+                                                }
+                                            },
+                                            height: '100%',
+                                            redrawOnParentResize: false,
+                                            redrawOnWindowResize: false,
+                                            foreColor: '#D3D3D3',
+                                            zoom: {
+                                                autoScaleYaxis: true,
+                                            },
+
+                                        },
+                                        xaxis: {
+                                            type: 'category',
+                                            axisBorder: {
+                                                show: true,
+                                                color: '#D3D3D3'
+                                            }
+                                        },
+                                        yaxis: {
+                                            axisBorder: {
+                                                show: true,
+                                                color: '#D3D3D3'
+                                            }
+                                        },
+                                        
+                                        dataLabels: {
+                                            enabled: false,
+                                            
+                                        },
+                                        
+                                        grid: {
+                                            show: false,
+                                        },
+                                        stroke: {
+                                            width: 2,
+                                        },
+                                        
+
+
+                                        theme: {
+                                            mode: 'light'
+                                        },
+                                        // plotOptions: {
+                                        //     area: {
+                                        //         fillTo: 'e',
+                                                
+                                        //     }
+                                        // },
+                                        fill: {
+                                            type: "gradient",
+                                            gradient: {
+                                                type: 'vertical',
+                                                opacityFrom: 1, // Make the top color more opaque
+                                                opacityTo: 0.1, // Make the bottom color more transparent
+                                                stops: [0, 95, 100], // Adjust stops to control opacity gradient
+                                            }
+                                          },
+
+                                        
+                                    }}
+                                    series={[{
+                                        name: 'Price',
+                                        data: this.prepareChartData(),
+                                        type: 'area',
+                                    
+                                        
+                                        
+                                    }]}
+                                                                    
+                                />
+
                         
 
                     </ResponsiveContainer>

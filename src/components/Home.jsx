@@ -23,6 +23,7 @@ class Home extends Component {
         })
     }
 
+    
 
     render() {
 
@@ -31,6 +32,7 @@ class Home extends Component {
 
                 <NavBar></NavBar>
                 {/* <StockPanel/> */}
+                {/* <TradingViewWidget/> */}
 
                 <div className="container col-xxl-10 px-4 py-5" >
                      {/* {console.log(this.state.searchedTicker)} */}

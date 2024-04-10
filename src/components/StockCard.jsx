@@ -19,7 +19,9 @@ class StockCard extends Component {
     }
 
     extractData() {
-        console.log(this.props)
+
+        // console.log(this.props);
+        
         
 
         this.setState({
@@ -41,6 +43,7 @@ class StockCard extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.details.symbol !== this.props.details.symbol) {
+            console.log(this.props);
             this.extractData();
         }
     }

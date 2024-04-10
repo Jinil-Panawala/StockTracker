@@ -19,7 +19,7 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        console.log('fetched full quote')
+        // console.log('fetched full quote')
     },
 
     // Called when updating stock card and graph
@@ -28,23 +28,60 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        console.log('fetched company profile')
+        // console.log('fetched company profile', ticker)
     },
 
     // Called when creating 1D graph
-    daily5min: (ticker, date, callback) => {
+    daily1min: (ticker, date, callback) => {
 
-        const url = `${apiCredentials.baseURL}/v3/historical-chart/5min/${ticker}?from=${date}&to=${date}&apikey=${apiCredentials.apiKey}`;
+        const url = `${apiCredentials.baseURL}/v3/historical-chart/1min/${ticker}?from=${date}&to=${date}&apikey=${apiCredentials.apiKey}`;
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        console.log('fetched daily 5 min data');
+        console.log('fetched daily 1 min data');
 
-    }
+    },
 
-    // daily 5 min chart:
-    // If day is weekend or holiday, api returns empty array. So, refetch by going back 1 day until non-empty array is returned. 
-    //https://financialmodelingprep.com/api/v3/historical-chart/5min/AAPL?from=2024-03-28&to=2024-03-28&apikey=DCdyLxaoqzFVHKmZAuBSsxtthy5oIFwA
+    // Called when creating 1W graph
+    weekly5min: (ticker, datefrom, dateTo, callback) => {
+
+        const url = `${apiCredentials.baseURL}/v3/historical-chart/5min/${ticker}?from=${datefrom}&to=${dateTo}&apikey=${apiCredentials.apiKey}`;
+        fetch(url).then((res) => res.json())
+        .then((data) => callback(data));
+
+        console.log('fetched weekly 5 min data');
+
+    },
+
+    // Called when creating 1W graph
+    monthly15min: (ticker, datefrom, dateTo, callback) => {
+
+        const url = `${apiCredentials.baseURL}/v3/historical-chart/15min/${ticker}?from=${datefrom}&to=${dateTo}&apikey=${apiCredentials.apiKey}`;
+        fetch(url).then((res) => res.json())
+        .then((data) => callback(data));
+
+        console.log('fetched monthly 15 min data');
+
+    },
+
+    yearly: (ticker, datefrom, dateTo, callback) => {
+        const url = `${apiCredentials.baseURL}/v3/historical-price-full/${ticker}?from=${datefrom}&to=${dateTo}&apikey=${apiCredentials.apiKey}`;
+        fetch(url).then((res) => res.json())
+        .then((data) => callback(data));
+
+        console.log('fetched 1 year data');
+    },
+    
+    fiveYears: (ticker, callback) => {
+        const url = `${apiCredentials.baseURL}/v3/historical-price-full/${ticker}?apikey=${apiCredentials.apiKey}`;
+        fetch(url).then((res) => res.json())
+        .then((data) => callback(data));
+
+        console.log('fetched 5 years data');
+    },
+
+
+
 
 
 
