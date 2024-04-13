@@ -59,110 +59,93 @@ class StockDetails extends Component {
 
     render() {
         return (
-
-            <Card className=' py-3  ms-auto bg-dark text-white row'>
-                <Card.Body >
-                    <div className='d-flex justify-content-center justify-content-md-between px-5 '>
-
-                        {/* First Column */}
-                        <div className='col-auto ' style={{color: '#D3D3D3'}}>
-                            <ul>
-                                Open:
-                            </ul>
-                            <ul>
-                                High:
-                            </ul>
-                            <ul>
-                                EPS:
-                            </ul>
-                            <ul>
-                                P/E:
-                            </ul>
-                            <ul>
-                                52W H:
-                            </ul>
-                            <ul>
-                                Last Dividend:
-                            </ul>
+            <>
+            {/* Mobile view */}
+                <Card className='py-3 ms-auto bg-dark text-white d-md-none '>
+                    <Card.Body>
+                        <div className='d-flex justify-content-center justify-content-md-between px-5'>
+                            <div className='col-auto text-wrap' style={{ color: '#D3D3D3', }}>
+                                <ul>Open:</ul>
+                                <ul>Close:</ul>
+                                <ul>High:</ul>
+                                <ul>Low:</ul>
+                                <ul>52W H:</ul>
+                                <ul>52W L:</ul>
+                                <ul>EPS:</ul>
+                                <ul>P/E:</ul>
+                                <ul>Volume:</ul>
+                                <ul>Mkt Cap:</ul>
+                                <ul>Last Dividend:</ul>
+                                <ul>Beta:</ul>
+                            </div>
+                            <div className='col-auto text-wrap ' >
+                                <ul>{(this.state.open).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.close).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.high).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.low).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.yearHigh).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.yearLow).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.eps).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.pe).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.volume / 1000000).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' M'}</ul>
+                                <ul>{(this.state.mktCap / 1000000000).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' B'}</ul>
+                                <ul>{(this.state.lastDividend).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.beta).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                            </div>
                         </div>
-                        
-                        
+                    </Card.Body>
+                </Card>
 
-                        {/* Second Column */}
-                        <div className='col-auto'>
-                            <ul className=''>
-                                {(this.state.open).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
-                            <ul className=''>
-                                {(this.state.high).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
-                            <ul className=''>
-                                {(this.state.eps).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
-                            <ul className=''>
-                                {(this.state.pe).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
-                            <ul className=''>
-                                {(this.state.yearHigh).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
-                            <ul className=''>
-                                {(this.state.lastDividend).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
-                        </div>
 
-                        <div className='border-end d-none d-md-block px-3'></div>
+                {/* Desktop view */}
+                <Card className='py-3 ms-auto bg-dark text-white d-none d-md-block'>
+                    <Card.Body>
+                        <div className='d-flex justify-content-center justify-content-md-between px-5'>
+                            {/* First Column */}
+                            <div className='col-auto text-wrap' style={{ color: '#D3D3D3', }}>
+                                <ul>Open:</ul>
+                                <ul>High:</ul>
+                                <ul>EPS:</ul>
+                                <ul>P/E:</ul>
+                                <ul>52W H:</ul>
+                                <ul>Last Dividend:</ul>
+                            </div>
 
-                        {/* Third Column */}
-                        <div className='col-auto' style={{color: '#D3D3D3'}}>
-                            <ul>
-                                Close:
-                            </ul>
-                            <ul>
-                                Low:
-                            </ul>
-                            <ul>
-                                Volume:
-                            </ul>
-                            <ul>
-                                Mkt Cap:
-                            </ul>
-                            <ul>
-                                52W L:
-                            </ul>
-                            <ul>
-                                Beta:
-                            </ul>
-                        </div>
+                            {/* Second Column */}
+                            <div className='col-auto text-wrap' >
+                                <ul>{(this.state.open).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.high).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.eps).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.pe).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.yearHigh).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.lastDividend).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                            </div>
+
+                            <div className='border-end d-none d-md-block px-3'></div>
+
+                            {/* Third Column */}
+                            <div className='col-auto text-wrap' style={{ color: '#D3D3D3',}}>
+                                <ul>Close:</ul>
+                                <ul>Low:</ul>
+                                <ul>Volume:</ul>
+                                <ul>Mkt Cap:</ul>
+                                <ul>52W L:</ul>
+                                <ul>Beta:</ul>
+                            </div>
 
                             {/* Fourth Column */}
-                        <div className='col-auto me-4'>
-                            <ul>
-                                {(this.state.close).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
-                            <ul>
-                                {(this.state.low).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
-                            <ul>
-                                {(this.state.volume / 1000000).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' M'}
-                            </ul>
-                            <ul>
-                                {(this.state.mktCap / 1000000000).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' B'}
-                            </ul>
-                            <ul>
-                                {(this.state.yearLow).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
-                            <ul>
-                                {(this.state.beta).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                            </ul>
+                            <div className='col-auto pe-4 text-wrap' style={{fontSize: '1rem'}}>
+                                <ul>{(this.state.close).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.low).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.volume / 1000000).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' M'}</ul>
+                                <ul>{(this.state.mktCap / 1000000000).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' B'}</ul>
+                                <ul>{(this.state.yearLow).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                                <ul>{(this.state.beta).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</ul>
+                            </div>
                         </div>
-                    </div>
-
-
-                </Card.Body>
-
-
-
-            </Card>
+                    </Card.Body>
+                </Card>
+            </>
         )
     }
 }

@@ -44,7 +44,7 @@ class SearchResults extends Component {
     componentDidMount() {
         // console.log('mounted');
         stockData.fullQuote(this.props.ticker, this.extractQuoteData.bind(this));
-        // stockData.companyProfile(this.props.ticker, this.extractCompanyData.bind(this));
+        stockData.companyProfile(this.props.ticker, this.extractCompanyData.bind(this));
     }
 
     componentDidUpdate(prevProps) {
@@ -54,7 +54,7 @@ class SearchResults extends Component {
 
 
             stockData.fullQuote(this.props.ticker, this.extractQuoteData.bind(this));
-            // stockData.companyProfile(this.props.ticker, this.extractCompanyData.bind(this));
+            stockData.companyProfile(this.props.ticker, this.extractCompanyData.bind(this));
             
             
         }
@@ -68,7 +68,7 @@ class SearchResults extends Component {
             <>
                 {/* {console.log(this.state.companyData)} */}
                 
-                {/* {dataAvailable && (
+                {dataAvailable && (
                     <>
 
                         <StockCard details={{symbol: this.state.quoteData["symbol"], companyName: this.state.quoteData['name'], price: this.state.quoteData["price"], change: this.state.quoteData["change"], changePercent: this.state.quoteData["changesPercentage"], 
@@ -78,13 +78,13 @@ class SearchResults extends Component {
                         
                     </>
 
-                )} */}
+                )}
 
 
                         <Graph symbol={this.state.quoteData['symbol']} timestamp={this.state.quoteData['timestamp']}/>
 
 
-                    {/* {dataAvailable && (
+                    {dataAvailable && (
                         <>
                         <StockDetails details={{symbol: this.state.quoteData['symbol'], open: this.state.quoteData["open"], close: this.state.quoteData["price"], high: this.state.quoteData['dayHigh'], low: this.state.quoteData['dayLow'],
                         eps: this.state.quoteData['eps'], volume: this.state.quoteData['volume'], pe: this.state.quoteData['pe'], marketCap: this.state.quoteData['marketCap'], yearHigh: this.state.quoteData['yearHigh'],
@@ -92,7 +92,7 @@ class SearchResults extends Component {
                         />
 
                         </>
-                    )} */}
+                    )}
                     
                     
 

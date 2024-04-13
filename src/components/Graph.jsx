@@ -12,7 +12,6 @@ class Graph extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // symbol: '',
             graphData: [],
             timestamp: 0,
             filter: '1D',
@@ -70,24 +69,10 @@ class Graph extends Component {
         return formattedPrevDate;
     }
 
-    // getDateFiveYearsBefore(dateString) {
-    //     const [year, month, day] = dateString.split('-').map(Number);
-    //     const prevYear = year - 5;
-    
-    //     // Format the previous date as YYYY-MM-DD
-    //     const formattedPrevDate = `${prevYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    
-    //     return formattedPrevDate;
-    // }
-
 
 
    
     prepareChartData = () => {
-        // if (this.state.filter === '1Y' || this.state.filter === '5Y') {
-
-        //     console.log(this.state.filter, this.state.graphData)
-        // }
 
         return (this.state.graphData).map((item, index) => {
             // console.log(item['close'].toFixed(2));
@@ -106,7 +91,6 @@ class Graph extends Component {
         if (graphData && Array.isArray(graphData) && graphData.length !== 0) {
             // console.log(Array.isArray({}))
             // console.log({'historical' : []}.hasOwnProperty('historical'))
-            // graphData.slice().reverse();
             this.setState({
                 graphData: graphData.slice().reverse(),
 
@@ -148,9 +132,6 @@ class Graph extends Component {
         stockData.fiveYears(this.props.symbol, this.extractGraphData.bind(this) )
 
     }
-
-
-    // chooseData = [this.getOneDayData(), this.getOneWeekData(), this.getOneMonthData(), this.getOneYearData(), this.getFiveYearData()];
 
 
     
@@ -220,29 +201,7 @@ class Graph extends Component {
                             {/* {console.log(this.props.timestamp)}
                             {console.log(this.convertTimestampToDate(this.props.timestamp))} */}
                             {/* {console.log(this.state.graphData.length)} */}
-
-                        
-                            
-                                {/* <AreaChart data={this.prepareChartData()}>
-
-                                <defs>
-                                    <linearGradient id="chartColor" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="50%" stopColor="rgb(77, 184, 255)" stopOpacity={0.8}/>
-                                        <stop offset="97%" stopColor="rgb(77, 184, 255)" stopOpacity={0}/>
-                                    </linearGradient>
                                 
-                                </defs>
-                                    
-
-
-                                    <Area type="monotone" dataKey="Price" stroke="#312e81" fillOpacity={1} strokeWidth={0.5} fill="url(#chartColor)"/>
-                                    <Tooltip  />
-                                    <XAxis dataKey={"date"} />
-                                    <YAxis domain={["dataMin", "dataMax"]} dataKey={'Price'}   />
-
-
-
-                                </AreaChart> */}
                                 <ReactApexChart
                                     options={{
                                         chart: {
@@ -334,6 +293,19 @@ class Graph extends Component {
                                     }]}
                                                                     
                                 />
+
+                                {/* <AreaChart data={this.prepareChartData()}>
+                                <defs>
+                                    <linearGradient id="chartColor" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="50%" stopColor="rgb(77, 184, 255)" stopOpacity={0.8}/>
+                                        <stop offset="97%" stopColor="rgb(77, 184, 255)" stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
+                                    <Area type="monotone" dataKey="Price" stroke="#312e81" fillOpacity={1} strokeWidth={0.5} fill="url(#chartColor)"/>
+                                    <Tooltip  />
+                                    <XAxis dataKey={"date"} />
+                                    <YAxis domain={["dataMin", "dataMax"]} dataKey={'Price'}   />
+                                </AreaChart> */}
 
                         
 

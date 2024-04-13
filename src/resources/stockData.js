@@ -19,7 +19,7 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        // console.log('fetched full quote')
+        // console.log('fetched full quote');
     },
 
     // Called when updating stock card and graph
@@ -28,7 +28,7 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        // console.log('fetched company profile', ticker)
+        // console.log('fetched company profile', ticker);
     },
 
     // Called when creating 1D graph
