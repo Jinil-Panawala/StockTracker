@@ -65,6 +65,22 @@ class SavedStocksList extends Component {
     }
 
 
+    // Methods to handle dragging
+    
+    handleDragStart = (e, index) => {
+        e.dataTransfer.setData('text/plain', index.toString());
+    };
+
+    handleDrop = (e, targetIndex) => {
+        const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
+        const items = [...this.state.quoteData];
+        const [draggedItem] = items.splice(draggedIndex, 1);
+        items.splice(targetIndex, 0, draggedItem);
+        this.setState({ quoteData: items });
+    };
+      
+
+
     render() {
 
         const isMobileView = window.innerWidth <= 768;
@@ -80,7 +96,7 @@ class SavedStocksList extends Component {
                     <ListGroup as="ol" numbered data-bs-theme='dark' bg='dark'  style={{ maxHeight: maxHeight, overflowY: 'auto'}}>
 
                         {
-                            this.state.quoteData.map((stock) => {
+                            this.state.quoteData.map((stock, index) => {
                                 return (
 
                                     <ListGroup.Item
@@ -89,6 +105,10 @@ class SavedStocksList extends Component {
                                         value={stock['symbol']}
                                         key={'stockList: ' + stock['symbol']}
                                         as="li"
+                                        draggable
+                                        onDragStart={(e) => this.handleDragStart(e, index)}
+                                        onDrop={(e) => this.handleDrop(e, index)}
+                                        onDragOver={(e) => e.preventDefault()}
                                         className="d-flex justify-content-between align-items-start "
                                     >
                                         <div className="px-3 me-auto d-flex flex-column" >
