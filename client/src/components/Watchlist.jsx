@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { userData } from '../resources/savedUserData';
 import SavedStocksList from './SavedStocksList';
 import SearchResults from './SearchResults';
 
@@ -8,6 +9,8 @@ class Watchlist extends Component {
         super(props);
         this.state = {
             selectedStockTicker: '',
+            currentUserSavedStocks: [],
+            dummy: false,
         }
     }
 
@@ -18,20 +21,33 @@ class Watchlist extends Component {
 
 
 
+    deleteStockFromWatchlist() {
+        this.setState({
+            // Simply sets selectedStockTicker state to empty string, since it is passed as a prop to SavedStocksList. 
+            // This will then cause componentDidUpdate to run in SavedStocksList and rerender the component (this time not including the deleted stock in the list)
+            selectedStockTicker: '', 
+        })
+    }
+
+    
+
+
+
+
+
     render() {
 
         return (
             <div className='bg-dark'>
-                {console.log(this.state.selectedStockTicker)}
                 <div className="container col-xxl-15 px-4 py-5 text-white">
                     <div className="row">
                         <div className="col-md-4">
-                            <SavedStocksList setStockTicker={this.setStockTicker.bind(this)}/>
+                            <SavedStocksList setStockTicker={this.setStockTicker.bind(this)} selectedStockTicker={this.state.selectedStockTicker}/>
                         </div>
                         <div className="col-md-8">
                             {
                                 this.state.selectedStockTicker !== '' &&
-                                <SearchResults ticker={this.state.selectedStockTicker} />
+                                <SearchResults ticker={this.state.selectedStockTicker} deleteSavedStocks={this.deleteStockFromWatchlist.bind(this)} />
                             }
                         </div>
                     </div>

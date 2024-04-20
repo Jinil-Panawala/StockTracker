@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
@@ -18,12 +17,9 @@ class StockCard extends Component {
         }
     }
 
-    extractData() {
+    extractPropsData() {
 
         // console.log(this.props);
-        
-        
-
         this.setState({
             symbol: this.props.details.symbol,
             companyName: this.props.details.companyName,
@@ -35,17 +31,19 @@ class StockCard extends Component {
         })
     }
     
+   
 
     componentDidMount() {
-        this.extractData();
-
+        this.extractPropsData();
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.details.symbol !== this.props.details.symbol) {
-            console.log(this.props);
-            this.extractData();
+            // console.log(this.props);
+            this.extractPropsData();
         }
+
+    
     }
 
 
@@ -66,7 +64,7 @@ class StockCard extends Component {
                             <h5 className="mx-4 pt-2 ">{this.state.exchange + '   ·   ' + this.state.currency}</h5>
                         </div>
                         <div className="col-auto align-self-center">
-                            <Button variant="primary" className="rounded-pill px-4">Add/Remove to Watchlist</Button>
+                            <Button variant="primary" className="rounded-pill px-4" onClick={() => this.props.AddRemoveButtonClick()}>{this.props.symbolIsSaved ? 'Remove from Watchlist' : 'Add to Watchlist'} </Button>
                         </div>
                     </div>
                     <div className="row justify-content-center justify-content-md-between  px-5 mt-4">

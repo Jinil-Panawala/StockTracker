@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { stockData } from "../resources/stockData";
-
+import { userData } from '../resources/savedUserData'; 
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card  from 'react-bootstrap/Card';
 
@@ -13,12 +13,13 @@ class SavedStocksList extends Component {
             quoteData: [],
             mounted: false,
             isMobileView: false,
+            currentUserSavedStocks: [],
         }
     }
 
-    tickers = ['SPY', 'QQQ', 'VB', 'IWM', 'IEFA', 'XLK', 'GLD', 'SCHD','AAPL', 'TSLA', 'NVDA', 'MSFT'];
+    // tickers = ['SPY', 'QQQ', 'VB', 'IWM', 'IEFA', 'XLK', 'GLD', 'SCHD','AAPL', 'TSLA', 'NVDA', 'MSFT'];
 
-    extractData(data) {
+    extractQuoteData(data) {
         if (data) {
 
             this.setState({
@@ -28,6 +29,47 @@ class SavedStocksList extends Component {
         }
     }
 
+    extractUserData(data) {
+
+        let tickerStr = '';
+
+        if (data && Array.isArray(data) && data.length !== 0) {
+
+
+            this.setState({
+                currentUserSavedStocks: data[0]['savedStocks'], // Currently only have 1 user in db. 
+            })
+
+            for (let i = 0; i < data[0]['savedStocks'].length; i++) {
+                tickerStr += (data[0]['savedStocks'][i] +  (i === data[0]['savedStocks'].length - 1 ? '' : ','))
+            }
+            // console.log(tickerStr)
+
+
+            stockData.bulkCompanyPrices(tickerStr, this.extractQuoteData.bind(this));
+            
+
+        }
+
+        if (data && !Array.isArray(data) && data.hasOwnProperty('savedStocks')) {
+
+
+            this.setState({
+                currentUserSavedStocks: data['savedStocks'], // Currently only have 1 user in db. 
+            })
+
+            for (let i = 0; i < data['savedStocks'].length; i++) {
+                tickerStr += (data['savedStocks'][i] +  (i === data['savedStocks'].length - 1 ? '' : ','))
+            }
+            // console.log(tickerStr)
+
+
+            stockData.bulkCompanyPrices(tickerStr, this.extractQuoteData.bind(this));
+        
+        }
+    }
+    
+
     updateWindowDimensions = () => {
         this.setState({ isMobileView: window.innerWidth <= 768 });
     }
@@ -36,14 +78,8 @@ class SavedStocksList extends Component {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
 
-        let tickerStr = '';
-
-        for (let i = 0; i < this.tickers.length; i++) {
-            tickerStr += (this.tickers[i] +   (i === this.tickers.length - 1 ? '' : ','))
-        }
-        // console.log(tickerStr)
-        stockData.bulkCompanyPrices(tickerStr, this.extractData.bind(this));
-
+       
+        userData.getUserData(this.extractUserData.bind(this));
     }
 
     componentWillUnmount() {
@@ -51,16 +87,9 @@ class SavedStocksList extends Component {
     }
     
     componentDidUpdate(prevProps) {
-        if (prevProps.symbol !== this.props.symbol) {
+        if (prevProps.selectedStockTicker !== this.props.selectedStockTicker) {
 
-            let tickerStr = '';
-
-            for (let i = 0; i < this.tickers.length; i++) {
-                tickerStr += (this.tickers[i] +   (i === this.tickers.length - 1 ? '' : ','))
-            }
-            // console.log(tickerStr)
-            stockData.bulkCompanyPrices(tickerStr, this.extractData.bind(this));
-
+            userData.getUserData(this.extractUserData.bind(this));            
         }
     }
 
@@ -77,6 +106,23 @@ class SavedStocksList extends Component {
         const [draggedItem] = items.splice(draggedIndex, 1);
         items.splice(targetIndex, 0, draggedItem);
         this.setState({ quoteData: items });
+
+        // Create newly ordered array which is to be stored in the db.
+        const newArray = [];
+        for (let i = 0; i < items.length; i++) {
+            newArray.push(items[i]['symbol'])
+        }
+
+        console.log(newArray)
+
+        const newSavedStocks = {
+            savedStocks: newArray,
+        }
+
+        // Update the db with the newly ordered array object. 
+        userData.updateSavedStocks(newSavedStocks, this.extractUserData.bind(this));
+
+        
     };
       
 
@@ -91,8 +137,9 @@ class SavedStocksList extends Component {
             this.state.mounted &&
             <Card data-bs-theme='dark' style={{border: 'none', padding: '0px'}}>
                 <Card.Body>
-                    <h5 className="card-title text-white text-center">Saved Stocks List</h5>
+                    <h5 className="card-title text-white text-center">{this.state.quoteData.length > 0 ? "Saved Stocks List" : 'No Stocks in Watchlist at The Moment'}</h5>
 
+                    
                     <ListGroup as="ol" numbered data-bs-theme='dark' bg='dark'  style={{ maxHeight: maxHeight, overflowY: 'auto'}}>
 
                         {

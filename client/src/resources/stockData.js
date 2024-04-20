@@ -38,7 +38,7 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        console.log('fetched daily 1 min data');
+        // console.log('fetched daily 1 min data');
 
     },
 
@@ -49,7 +49,7 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        console.log('fetched weekly 5 min data');
+        // console.log('fetched weekly 5 min data');
 
     },
 
@@ -60,7 +60,7 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        console.log('fetched monthly 15 min data');
+        // console.log('fetched monthly 15 min data');
 
     },
 
@@ -69,7 +69,7 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        console.log('fetched 1 year data');
+        // console.log('fetched 1 year data');
     },
     
     fiveYears: (ticker, callback) => {
@@ -77,7 +77,7 @@ export const stockData = {
         fetch(url).then((res) => res.json())
         .then((data) => callback(data));
 
-        console.log('fetched 5 years data');
+        // console.log('fetched 5 years data');
     },
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import StockCard from "./StockCard";
 import { stockData } from "../resources/stockData";
+import { userData } from "../resources/savedUserData";
 import Graph from "./Graph";
 import StockDetails from "./StockDetails";
 
@@ -12,7 +13,9 @@ class SearchResults extends Component {
         this.state = {
             quoteData: {},
             companyData: {},
-            
+            // symbol: this.props.ticker,
+            currentUserSavedStocks: [],
+            symbolIsSaved: false,
         }
     }
 
@@ -23,7 +26,7 @@ class SearchResults extends Component {
         if (quoteData) {
             this.setState({
                 quoteData: quoteData[0],
-
+                symbol: this.props.ticker,
 
             })
         }
@@ -41,10 +44,96 @@ class SearchResults extends Component {
         }
     }
 
+    extractUserData(data) {
+        if (data && Array.isArray(data) && data.length !== 0) {
+
+
+            this.setState({
+                currentUserSavedStocks: data[0]['savedStocks'], // Currently only have 1 user in db. 
+                symbolIsSaved: data[0]['savedStocks'].includes(this.props.ticker),
+            })
+        }
+
+        if (data && !Array.isArray(data) && data.hasOwnProperty('savedStocks')) {
+
+
+            this.setState({
+                currentUserSavedStocks: data['savedStocks'], // Currently only have 1 user in db. 
+                symbolIsSaved: data['savedStocks'].includes(this.props.ticker),
+            })
+        }
+
+        
+    }
+
+    // When Add to Watchlist / Remove from Watchlist button in StockCard is clicked. Updates the db. 
+    updateDbOnAddRemove() {
+
+        if (this.state.symbolIsSaved) { // Remove from Watchlist
+
+            const newArray = this.state.currentUserSavedStocks.filter(ticker => ticker !== this.props.ticker)
+            const newSavedStocks = {
+                savedStocks: newArray,
+            }
+
+            // console.log(newSavedStocks);
+
+            userData.updateSavedStocks(newSavedStocks, this.extractUserData.bind(this));
+            // setTimeout(() => {
+            //     userData.getUserData(this.extractUserData.bind(this));
+            // }, 250);
+
+            // this.setState({
+            //     symbolIsSaved: false,
+            //     currentUserSavedStocks: newArray,
+            // })
+
+            if (this.props.deleteSavedStocks) {
+                this.props.deleteSavedStocks()
+            }
+
+        }
+
+        if (!this.state.symbolIsSaved) { // Add to Watchlist
+
+            const newArray = this.state.currentUserSavedStocks;
+            // console.log(this.state.symbol, this.state.currentUserSavedStocks)
+            newArray.push(this.props.ticker);
+            const newSavedStocks = {
+                savedStocks: newArray,
+            }
+
+            // console.log(newSavedStocks)
+
+            userData.updateSavedStocks(newSavedStocks, this.extractUserData.bind(this));
+            // setTimeout(() => {
+            //     userData.getUserData(this.extractUserData.bind(this));
+            // }, 250);
+            
+
+            // this.setState({
+            //     symbolIsSaved: true,
+            //     currentUserSavedStocks: newArray,
+            // })
+
+            // if (this.props.updateSavedStocks) {
+            //     this.props.updateSavedStocks(newArray)
+            // }
+
+        }
+
+        
+
+
+    }
+
+
+
     componentDidMount() {
         // console.log('mounted');
         stockData.fullQuote(this.props.ticker, this.extractQuoteData.bind(this));
         stockData.companyProfile(this.props.ticker, this.extractCompanyData.bind(this));
+        userData.getUserData(this.extractUserData.bind(this));
     }
 
     componentDidUpdate(prevProps) {
@@ -52,10 +141,9 @@ class SearchResults extends Component {
             // console.log('updated', this.props.ticker);
             // console.log('updated');
 
-
             stockData.fullQuote(this.props.ticker, this.extractQuoteData.bind(this));
             stockData.companyProfile(this.props.ticker, this.extractCompanyData.bind(this));
-            
+            userData.getUserData(this.extractUserData.bind(this));
             
         }
     }
@@ -73,6 +161,7 @@ class SearchResults extends Component {
 
                         <StockCard details={{symbol: this.state.quoteData["symbol"], companyName: this.state.quoteData['name'], price: this.state.quoteData["price"], change: this.state.quoteData["change"], changePercent: this.state.quoteData["changesPercentage"], 
                         currency: this.state.companyData["currency"], exchange: this.state.quoteData['exchange']}}
+                        AddRemoveButtonClick={this.updateDbOnAddRemove.bind(this)} symbolIsSaved={this.state.symbolIsSaved}
                         />
                         
                         
