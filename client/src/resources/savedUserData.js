@@ -1,5 +1,5 @@
 
-const port = process.env.PORT || 4000;
+const port = process.env.REACT_APP_PORT || 4000;
 const _id = '661c9b149946b8f65dcf3748'; // Currently the id of the only document in db. 
 
 export const userData = {

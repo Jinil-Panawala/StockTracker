@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import StockCard from "./StockCard";
-import { stockData } from "../resources/stockData";
-import { userData } from "../resources/savedUserData";
+import { stockData } from "../../resources/stockData";
+import { userData } from "../../resources/savedUserData";
 import Graph from "./Graph";
 import StockDetails from "./StockDetails";
 
@@ -79,14 +79,7 @@ class SearchResults extends Component {
             // console.log(newSavedStocks);
 
             userData.updateSavedStocks(newSavedStocks, this.extractUserData.bind(this));
-            // setTimeout(() => {
-            //     userData.getUserData(this.extractUserData.bind(this));
-            // }, 250);
-
-            // this.setState({
-            //     symbolIsSaved: false,
-            //     currentUserSavedStocks: newArray,
-            // })
+            
 
             if (this.props.deleteSavedStocks) {
                 this.props.deleteSavedStocks()
@@ -106,19 +99,7 @@ class SearchResults extends Component {
             // console.log(newSavedStocks)
 
             userData.updateSavedStocks(newSavedStocks, this.extractUserData.bind(this));
-            // setTimeout(() => {
-            //     userData.getUserData(this.extractUserData.bind(this));
-            // }, 250);
             
-
-            // this.setState({
-            //     symbolIsSaved: true,
-            //     currentUserSavedStocks: newArray,
-            // })
-
-            // if (this.props.updateSavedStocks) {
-            //     this.props.updateSavedStocks(newArray)
-            // }
 
         }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { stockData } from "../resources/stockData";
-import { userData } from '../resources/savedUserData'; 
+import { stockData } from "../../resources/stockData";
+import { userData } from '../../resources/savedUserData'; 
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card  from 'react-bootstrap/Card';
 
@@ -17,7 +17,6 @@ class SavedStocksList extends Component {
         }
     }
 
-    // tickers = ['SPY', 'QQQ', 'VB', 'IWM', 'IEFA', 'XLK', 'GLD', 'SCHD','AAPL', 'TSLA', 'NVDA', 'MSFT'];
 
     extractQuoteData(data) {
         if (data) {
@@ -112,8 +111,6 @@ class SavedStocksList extends Component {
         for (let i = 0; i < items.length; i++) {
             newArray.push(items[i]['symbol'])
         }
-
-        console.log(newArray)
 
         const newSavedStocks = {
             savedStocks: newArray,

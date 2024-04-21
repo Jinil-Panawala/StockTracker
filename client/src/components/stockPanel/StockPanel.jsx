@@ -1,6 +1,6 @@
 import React, {Component } from "react";
 import StockSnapshot from "./StockSnapshot";
-import { stockData } from "../resources/stockData";
+import { stockData } from "../../resources/stockData";
 import  Table  from "react-bootstrap/Table";
 
 class StockPanel extends Component {
@@ -63,15 +63,9 @@ class StockPanel extends Component {
                                 )
                             })
                         : null}
-
-                
                     
                     </tr>
-
-
                 </tbody>
-
-
 
             </Table>
 

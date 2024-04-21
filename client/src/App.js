@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import StockPanel from './components/StockPanel';
-import Home from './components/Home';
-import Watchlist from './components/Watchlist';
-import PageNotFound from './components/PageNotFound';
+import NavBar from './components/navBar/NavBar';
+import StockPanel from './components/stockPanel/StockPanel';
+import Home from './components/findStocks/Home';
+import Watchlist from './components/myWatchlist/Watchlist';
+import PageNotFound from './components/miscellaneous/PageNotFound';
 function App() {
 
   

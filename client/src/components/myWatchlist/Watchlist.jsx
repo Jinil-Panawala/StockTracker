@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { userData } from '../resources/savedUserData';
 import SavedStocksList from './SavedStocksList';
-import SearchResults from './SearchResults';
+import SearchResults from '../searchResults/SearchResults';
 
 class Watchlist extends Component {
 

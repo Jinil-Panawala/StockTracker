@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { stockData } from "../resources/stockData";
+import { stockData } from "../../resources/stockData";
 import { ResponsiveContainer } from "recharts";
 import Card  from "react-bootstrap/Card";
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -294,18 +294,7 @@ class Graph extends Component {
                                                                     
                                 />
 
-                                {/* <AreaChart data={this.prepareChartData()}>
-                                <defs>
-                                    <linearGradient id="chartColor" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="50%" stopColor="rgb(77, 184, 255)" stopOpacity={0.8}/>
-                                        <stop offset="97%" stopColor="rgb(77, 184, 255)" stopOpacity={0}/>
-                                    </linearGradient>
-                                </defs>
-                                    <Area type="monotone" dataKey="Price" stroke="#312e81" fillOpacity={1} strokeWidth={0.5} fill="url(#chartColor)"/>
-                                    <Tooltip  />
-                                    <XAxis dataKey={"date"} />
-                                    <YAxis domain={["dataMin", "dataMax"]} dataKey={'Price'}   />
-                                </AreaChart> */}
+                                
 
                         
 

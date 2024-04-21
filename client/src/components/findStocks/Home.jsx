@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Hero from './Hero';
 import SearchBar from './SearchBar';
-import SearchResults from './SearchResults';
+import SearchResults from '../searchResults/SearchResults';
 
 
 class Home extends Component {
