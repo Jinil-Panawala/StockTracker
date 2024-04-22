@@ -8,19 +8,22 @@ const routes = require('./routes/api/users')
 
 app.use(express.json());
 app.use(cors({
-    origin: '3.87.200.68',
+    origin: '*',
 }));
 
 
-// const _dirname = path.dirname("");
+/// Important to run frontend via backend server
 const buildPath = path.join(__dirname , "../client/build");
-console.log(buildPath)
 app.use(express.static(buildPath));
+///
+
 
 // use the routes module as a middleware
 // for the /api/users path. 
 app.use('/api/users', routes);
 
+
+/// Important to run frontend via backend server
 // To run the react app on the server port instead of the usual port 3000. 
 app.get("*", function(req, res) {
     res.sendFile(
@@ -32,6 +35,8 @@ app.get("*", function(req, res) {
         }
     );
 })
+///
+
 
 // Conenct database
 connectDB();

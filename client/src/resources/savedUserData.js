@@ -1,5 +1,8 @@
 
+const isProduction = (process.env.REACT_APP_MODE === 'prod'); // Change in .env file
 const port = process.env.REACT_APP_PORT || 8000;
+const clientURL = process.env.REACT_APP_CLIENT_URL;
+
 const _id = '661c9b149946b8f65dcf3748'; // Currently the id of the only document in db. 
 
 export const userData = {
@@ -7,7 +10,7 @@ export const userData = {
 
     getUserData: async (callback) => {
 
-        const url = `http://localhost:${port}/api/users`
+        const url = (isProduction ? `${clientURL}/api/users`: `http://localhost:${port}/api/users`);
         fetch(url).then((res) => res.json())
         .then((data) => {callback(data)})
         .catch(error => {
@@ -18,7 +21,7 @@ export const userData = {
     },
 
     updateSavedStocks: (stockArrayObject, callback) => {
-        const url = `http://localhost:${port}/api/users/${_id}`;
+        const url = (isProduction ? `${clientURL}/api/users/${_id}` : `http://localhost:${port}/api/users/${_id}` );
 
         fetch(url, {
             method: 'PUT',

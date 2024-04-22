@@ -2,7 +2,7 @@
 const keys = process.env.REACT_APP_API_KEYS.split(',');
 const randomIndex = Math.floor(Math.random() * keys.length);
 const selectedKey = keys[randomIndex];
-const baseUrl = process.env.REACT_APP_BASE_URL;
+const baseUrl = process.env.REACT_APP_FMP_BASE_URL;
 export const stockData = {
 
     // Called when displaying stock panel. Same data as fullQuote, except we can have multiple stocks here
