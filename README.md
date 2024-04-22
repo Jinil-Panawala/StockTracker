@@ -9,5 +9,4 @@ Currently, there is only 1 user (and only 1 watchlist), however in the future, a
 
 The frontend (client) is built via `npm run build` and is served from the backend (server) via Express. This is then deployed on an AWS EC2 instance using `pm2` and `nginx`. 
 
-My main motivation to create this project was to gain exposure to full stack development. More specifically, I wanted experience in building a backend and going through the process of choosing appropriate libraries and technologies for this project. 
-
+My main motivation to create this project was to gain exposure to full stack development. More specifically, I wanted experience in building a backend and going through the process of choosing appropriate libraries and technologies for this project. In addition, I wanted to create an app from start to finish (i.e. from design to deployment) and go through that process (something that I greatly enjoyed). 
