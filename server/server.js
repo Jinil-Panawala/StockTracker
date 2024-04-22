@@ -8,12 +8,13 @@ const routes = require('./routes/api/users')
 
 app.use(express.json());
 app.use(cors({
-    origin: '*',
+    origin: 'http://3.87.200.68',
 }));
 
 
 // const _dirname = path.dirname("");
 const buildPath = path.join(__dirname , "../client/build");
+console.log(buildPath)
 app.use(express.static(buildPath));
 
 // use the routes module as a middleware
