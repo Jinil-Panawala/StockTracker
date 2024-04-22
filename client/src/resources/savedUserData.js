@@ -1,11 +1,12 @@
 
-const port = process.env.REACT_APP_PORT || 4000;
+const port = process.env.REACT_APP_PORT || 8000;
 const _id = '661c9b149946b8f65dcf3748'; // Currently the id of the only document in db. 
 
 export const userData = {
 
 
     getUserData: async (callback) => {
+
         const url = `http://localhost:${port}/api/users`
         fetch(url).then((res) => res.json())
         .then((data) => {callback(data)})
