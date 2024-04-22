@@ -7,7 +7,9 @@ const connectDB = require('./db.js');
 const routes = require('./routes/api/users')
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: '*',
+}));
 
 
 // const _dirname = path.dirname("");
