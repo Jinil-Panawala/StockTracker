@@ -8,7 +8,7 @@ const routes = require('./routes/api/users')
 
 app.use(express.json());
 app.use(cors({
-    origin: 'http://3.87.200.68',
+    origin: '3.87.200.68',
 }));
 
 
